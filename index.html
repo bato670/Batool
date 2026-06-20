@@ -1,114 +1,292 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>عضُد | منصة ذكية لدعم ذوي الإعاقة من ضيوف الرحمن</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>عضُد | منصة AI للتمكين والدعم الذكي</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;800&display=swap');
+
 :root{
---primary:#A17136;
---bg:#F4EFE6;
---green:#2E7D32;
---card:#FFFFFF;
---text:#3B2D1F;
---sub:#6B5A45;
---border:#E6DDCF;
---warning:#F59E0B;
---critical:#DC2626;
+  --primary:#A17136;
+  --bg:#F4EFE6;
+  --green:#2E7D32;
+  --card:#FFFFFF;
+  --text:#3B2D1F;
+  --sub:#6B5A45;
+  --border:#E6DDCF;
+  --warn:#F59E0B;
+  --crit:#DC2626;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Tahoma',sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
-nav{background:#fff;padding:18px 50px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
-.logo{font-size:34px;font-weight:bold;color:var(--primary)}
-nav ul{display:flex;gap:25px;list-style:none}
-.hero{padding:100px 60px;text-align:center}
-.hero h1{font-size:60px;margin-bottom:20px}
-.hero h1 span{color:var(--primary)}
-.hero p{max-width:900px;margin:auto;color:var(--sub);font-size:20px}
-.btn{display:inline-block;margin-top:30px;background:var(--primary);color:#fff;padding:15px 30px;border-radius:12px;text-decoration:none}
-.section{padding:70px 60px}
-.title{font-size:38px;color:var(--primary);margin-bottom:25px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.card{background:var(--card);padding:25px;border-radius:16px;border:1px solid var(--border)}
-.card h3{color:var(--primary);margin-bottom:10px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.stat{background:#fff;padding:25px;border-radius:16px;text-align:center;border:1px solid var(--border)}
-.num{font-size:42px;font-weight:bold;color:var(--primary)}
-footer{background:#fff;border-top:1px solid var(--border);padding:30px;text-align:center}
-.about-box{background:#fff;border:1px solid var(--border);border-radius:16px;padding:25px;margin-bottom:20px}
-.name{font-weight:bold;color:var(--text);font-size:20px}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',sans-serif;}
+
+body{background:var(--bg);color:var(--text);}
+
+/* NAV */
+nav{
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  padding:14px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;top:0;z-index:10;
+}
+
+.logo{
+  display:flex;gap:10px;align-items:center;font-weight:800;
+}
+.logo-box{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--primary);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;
+}
+
+.links button{
+  background:none;border:none;
+  margin:0 6px;
+  font-weight:600;
+  color:var(--sub);
+  cursor:pointer;
+}
+.links button.active{color:var(--primary);}
+
+/* HERO */
+.hero{
+  padding:70px 30px;
+  text-align:center;
+}
+.hero h1{
+  font-size:42px;
+  color:var(--primary);
+}
+.hero p{
+  margin-top:12px;
+  color:var(--sub);
+  max-width:700px;
+  margin-inline:auto;
+  line-height:1.8;
+}
+.btn{
+  margin-top:20px;
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  padding:12px 22px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:16px;
+  padding:30px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px;
+}
+
+/* DASH */
+.dashboard{
+  display:none;
+  padding:20px;
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.kpi{
+  background:#fff;
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:12px;
+}
+
+.kpi h3{color:var(--primary);}
+
+/* CHAT */
+.chat{
+  display:none;
+  padding:20px;
+}
+
+.chat-box{
+  background:#fff;
+  border:1px solid var(--border);
+  height:400px;
+  overflow:auto;
+  padding:12px;
+  border-radius:12px;
+}
+
+.msg{margin:8px 0;}
+.user{color:#fff;background:var(--primary);padding:8px;border-radius:10px;width:fit-content;margin-right:auto;}
+.ai{background:#F8F3ED;padding:8px;border-radius:10px;width:fit-content;}
+
+.input{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+input{
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid var(--border);
+}
+button.send{
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  padding:10px 18px;
+  border-radius:10px;
+}
+
+/* ABOUT */
+.about{display:none;padding:20px;}
+
+.team{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:12px;
+}
+
 </style>
 </head>
+
 <body>
 
 <nav>
-<div class="logo">عضُد</div>
-<ul>
-<li>الرئيسية</li>
-<li>الخدمات</li>
-<li>الخرائط الذكية</li>
-<li>التحليلات</li>
-<li>عنّا</li>
-</ul>
+  <div class="logo">
+    <div class="logo-box">ع</div>
+    <div>عضُد</div>
+  </div>
+
+  <div class="links">
+    <button onclick="show('home',this)" class="active">الرئيسية</button>
+    <button onclick="show('dash',this)">Dashboard</button>
+    <button onclick="show('chat',this)">AI</button>
+    <button onclick="show('about',this)">عنّا</button>
+  </div>
 </nav>
 
-<section class="hero">
-<h1>منصة <span>عضُد</span></h1>
-<p>
-منصة رقمية ذكية تهدف إلى تمكين ذوي الإعاقة من ضيوف الرحمن عبر حلول تقنية مبتكرة تجمع بين الذكاء الاصطناعي وتحليل البيانات والخدمات المساندة لتحسين جودة التجربة الإيمانية والإنسانية.
-</p>
-<a href="#" class="btn">استعراض المنصة</a>
+<!-- HOME -->
+<section id="home">
+  <div class="hero">
+    <h1>مساعد ذكي يدعم ضيوف الرحمن</h1>
+    <p>
+      منصة عضُد تقدم تجربة SaaS ذكية تعتمد على الذكاء الاصطناعي
+      لدعم ذوي الإعاقة أثناء الحج والعمرة عبر تحليل فوري وتوجيه لحظي.
+    </p>
+    <button class="btn" onclick="show('dash')">استعراض النظام</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">ذكاء تنبؤي لحالات الإجهاد</div>
+    <div class="card">مساعد محادثة فوري</div>
+    <div class="card">تحليلات لحظية</div>
+    <div class="card">رحلة مخصصة لكل مستخدم</div>
+  </div>
 </section>
 
-<section class="section">
-<h2 class="title">الخدمات الرئيسية</h2>
-<div class="grid">
-<div class="card"><h3>إدارة المستفيدين</h3><p>إدارة الملفات الشخصية وتصنيف الاحتياجات والإعاقات.</p></div>
-<div class="card"><h3>مركز الخدمات</h3><p>طلبات المرافقين والكراسي المتحركة ومترجمي لغة الإشارة.</p></div>
-<div class="card"><h3>الخرائط الذكية</h3><p>المسارات المهيأة ونقاط التبريد والخدمات المساندة.</p></div>
-<div class="card"><h3>المساعد الذكي</h3><p>إرشاد فوري قائم على الذكاء الاصطناعي.</p></div>
-</div>
+<!-- DASHBOARD -->
+<section id="dash" class="dashboard">
+  <div class="kpis">
+    <div class="kpi"><h3>1,240</h3><p>مستخدم نشط</p></div>
+    <div class="kpi"><h3 style="color:var(--crit)">38</h3><p>تنبيه حراري</p></div>
+    <div class="kpi"><h3 style="color:var(--warn)">72%</h3><p>دقة النموذج</p></div>
+    <div class="kpi"><h3 style="color:var(--green)">94%</h3><p>رضا المستخدم</p></div>
+  </div>
+
+  <div class="card" style="margin-top:15px;">
+    <canvas id="chart"></canvas>
+  </div>
 </section>
 
-<section class="section">
-<h2 class="title">مؤشرات المنصة</h2>
-<div class="stats">
-<div class="stat"><div class="num">94%</div><div>رضا المستفيدين</div></div>
-<div class="stat"><div class="num">12K+</div><div>مستفيد</div></div>
-<div class="stat"><div class="num">1.2K</div><div>خدمة مقدمة</div></div>
-<div class="stat"><div class="num">87%</div><div>استجابة فورية</div></div>
-</div>
+<!-- CHAT -->
+<section id="chat" class="chat">
+  <div class="chat-box" id="box"></div>
+
+  <div class="input">
+    <input id="msg" placeholder="اكتب سؤالك..."/>
+    <button class="send" onclick="send()">إرسال</button>
+  </div>
 </section>
 
-<section class="section">
-<h2 class="title">عنّــا</h2>
+<!-- ABOUT -->
+<section id="about" class="about">
+  <div class="card">
+    <h2>فريق عضُد</h2>
+    <br/>
+    <p><b>بتول الزهراني</b> — قانونية، UI/UX، باحثة ومتطوعة</p>
+    <p><b>منال الفهمي</b> — أخصائية اجتماعية، رائدة أعمال</p>
+    <p><b>جود الحربي</b> — قانونية، إعلامية، مهتمة بالتقنية</p>
+  </div>
 
-<div class="about-box">
-<h3 style="color:#A17136">فريق عضُد</h3><br>
-
-<p class="name">بتول الزهراني</p>
-<p>قانونية، باحثة ومتطوعة، ومصممة واجهات وتجربة المستخدم (UI/UX)، مهتمة بالتقنية، وحاصدة جوائز دولية ومحلية.</p><br>
-
-<p class="name">منال الفهمي</p>
-<p>أخصائية اجتماعية ورائدة أعمال ناشئة، حاصدة عدة جوائز في البحث والابتكار.</p><br>
-
-<p class="name">جود الحربي</p>
-<p>قانونية، إعلامية ومتحدثة، مهتمة بالتقنية والتصميم.</p>
-</div>
-
-<div class="about-box">
-<h3 style="color:#A17136">مستشارو عضُد</h3><br>
-
-<p class="name">مستشار تقني وذكاء اصطناعي</p>
-<p>
-مهندس برمجيات وباحث في الذكاء الاصطناعي، حاصل على درجة البكالوريوس في هندسة البرمجيات، ومتخصص في التقنيات الحديثة واستثمارها في تسريع وتحسين برمجة وتطوير المشاريع ورفع كفاءتها التشغيلية.
-</p>
-</div>
+  <div class="card" style="margin-top:12px;">
+    <h2>مستشارو عضُد</h2>
+    <p>مهندس برمجيات وباحث ذكاء اصطناعي — مختص بتسريع وتطوير الأنظمة الحديثة</p>
+  </div>
 </section>
 
-<footer>
-عضُد © 2026 | منصة ذكية لدعم ذوي الإعاقة من ضيوف الرحمن
-</footer>
+<script>
+function show(id,btn){
+  document.querySelectorAll('section').forEach(s=>s.style.display='none');
+  document.getElementById(id).style.display='block';
+
+  document.querySelectorAll('.links button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
+function send(){
+  const box=document.getElementById('box');
+  const msg=document.getElementById('msg');
+  if(!msg.value) return;
+
+  box.innerHTML+=`<div class="msg user">${msg.value}</div>`;
+
+  let reply="أفهم طلبك، جاري تحليل الحالة...";
+
+  if(msg.value.includes("حرارة")) reply="تنبيه: مستوى حراري مرتفع، يُنصح بالراحة فوراً.";
+  if(msg.value.includes("مرافق")) reply="تم إرسال طلب مرافق قريب منك.";
+  if(msg.value.includes("راحة")) reply="أقرب نقطة راحة على بعد 150 متر.";
+
+  setTimeout(()=>{
+    box.innerHTML+=`<div class="msg ai">${reply}</div>`;
+    box.scrollTop=box.scrollHeight;
+  },500);
+
+  msg.value="";
+}
+
+show('home');
+
+new Chart(document.getElementById('chart'),{
+  type:'line',
+  data:{
+    labels:['1','2','3','4','5','6'],
+    datasets:[{
+      label:'تنبيهات',
+      data:[5,10,8,15,20,18],
+      borderColor:'#A17136'
+    }]
+  }
+});
+</script>
 
 </body>
 </html>
